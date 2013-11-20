@@ -3,9 +3,8 @@
 import pyaudio
 import wave
 import datetime
-import thread
 import time
-import traceback
+import thread
 
 #define of params
 FORMAT = pyaudio.paInt16
@@ -16,14 +15,15 @@ SAMPWIDTH = 2
 #record time
 TIME = 30
 
+global occupied
+
 def wavrecord():
         #open the input of wave
         pa = pyaudio.PyAudio()
-        try:
-                stream = pa.open(format = FORMAT, channels = CHANNELS, rate = SAMPRATE,
-                                 input = True, frames_per_buffer = SAMPLES)
-        except:
-                print traceback.print_exc()
+        occupied = True
+        stream = pa.open(format = FORMAT, channels = CHANNELS, rate = SAMPRATE,
+                         input = True, frames_per_buffer = SAMPLES)
+        
         wavbuffer = []
         count = 0
         while count < TIME*(SAMPRATE/SAMPLES):
@@ -40,11 +40,16 @@ def wavrecord():
         wf.writeframes("".join(wavbuffer))
         wf.close()
         print filename, "saved"
+        stream.close()
+        occupied = False
 
 def main():
-    while True:
-            thread.start_new_thread(wavrecord,())
-            time.sleep(TIME)
+        occupied = False
+        while True:
+                while occupied:
+                        time.sleep(0.1)
+                thread.start_new_thread(wavrecord,())
+                #time.sleep(TIME)
 	
 if __name__ == "__main__":
 	main()

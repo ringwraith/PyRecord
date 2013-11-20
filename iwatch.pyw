@@ -11,7 +11,7 @@ framerate = 8000
 channels = 1
 sampwidth = 2
 #record time
-TIME = 5
+TIME = 30
 
 def save_wave_file(filename, data):
 	'''save the date to the wav file'''
@@ -43,8 +43,8 @@ def record_wave():
 	print filename, "saved"
 
 def main():
-        #while True:
-        record_wave()
+        while True:
+                record_wave()
 	
 if __name__ == "__main__":
 	main()

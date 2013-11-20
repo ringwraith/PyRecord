@@ -13,7 +13,7 @@ SAMPRATE = 8000
 SAMPLES = 2000
 SAMPWIDTH = 2
 #record time
-TIME = 5
+TIME = 30
 
 def wavrecord():
         global occupied
@@ -49,7 +49,7 @@ def main():
                         time.sleep(0.05)
                 occupied = True
                 thread.start_new_thread(wavrecord,())
-                #time.sleep(TIME)
+                time.sleep(TIME)
 	
 if __name__ == "__main__":
 	main()

@@ -13,14 +13,12 @@ SAMPRATE = 8000
 SAMPLES = 2000
 SAMPWIDTH = 2
 #record time
-TIME = 30
-
-global occupied
+TIME = 5
 
 def wavrecord():
+        global occupied
         #open the input of wave
         pa = pyaudio.PyAudio()
-        occupied = True
         stream = pa.open(format = FORMAT, channels = CHANNELS, rate = SAMPRATE,
                          input = True, frames_per_buffer = SAMPLES)
         
@@ -44,10 +42,12 @@ def wavrecord():
         occupied = False
 
 def main():
+        global occupied
         occupied = False
         while True:
                 while occupied:
-                        time.sleep(0.1)
+                        time.sleep(0.05)
+                occupied = True
                 thread.start_new_thread(wavrecord,())
                 #time.sleep(TIME)
 	
